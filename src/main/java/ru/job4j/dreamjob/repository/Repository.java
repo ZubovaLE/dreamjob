@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface Repository<T> {
     T save(T t);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 
     boolean update(T t);
 
