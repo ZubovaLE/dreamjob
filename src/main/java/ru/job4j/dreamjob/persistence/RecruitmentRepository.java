@@ -1,9 +1,9 @@
-package ru.job4j.dreamjob.repository;
+package ru.job4j.dreamjob.persistence;
 
 import java.util.Collection;
 import java.util.Optional;
 
-public interface Repository<T> {
+public interface RecruitmentRepository<T> {
     T save(T t);
 
     boolean deleteById(int id);

@@ -1,5 +1,6 @@
-package ru.job4j.dreamjob.repository;
+package ru.job4j.dreamjob.persistence;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
 
 import java.time.LocalDateTime;
@@ -8,9 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class CandidateRepository implements Repository<Candidate> {
-    private static final CandidateRepository INSTANCE = new CandidateRepository();
-
+@Repository
+public class CandidateRepository implements RecruitmentRepository<Candidate> {
     private int nextId = 1;
 
     private final Map<Integer, Candidate> candidates = new HashMap<>();
@@ -22,10 +22,6 @@ public class CandidateRepository implements Repository<Candidate> {
         save(new Candidate(0, "Anna", "Description 4", LocalDateTime.of(2023, 4, 3, 0, 0)));
         save(new Candidate(0, "Mark", "Description 5", LocalDateTime.of(2023, 5, 3, 0, 0)));
         save(new Candidate(0, "Bob", "Description 6", LocalDateTime.of(2023, 6, 3, 0, 0)));
-    }
-
-    public static CandidateRepository getInstance() {
-        return INSTANCE;
     }
 
     @Override

@@ -1,6 +1,7 @@
-package ru.job4j.dreamjob.repository;
+package ru.job4j.dreamjob.persistence;
 
 import ru.job4j.dreamjob.model.Vacancy;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -8,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class VacancyRepository implements Repository<Vacancy> {
-    private static final VacancyRepository INSTANCE = new VacancyRepository();
+@Repository
+public class VacancyRepository implements RecruitmentRepository<Vacancy> {
 
     private int nextId = 1;
 
@@ -22,10 +23,6 @@ public class VacancyRepository implements Repository<Vacancy> {
         save(new Vacancy(0, "Middle Java Developer", "Description 4", LocalDateTime.of(2023, 4, 1, 0, 0)));
         save(new Vacancy(0, "Middle+ Java Developer", "Description 5", LocalDateTime.of(2023, 5, 1, 0, 0)));
         save(new Vacancy(0, "Senior Java Developer", "Description 6", LocalDateTime.of(2023, 6, 1, 0, 0)));
-    }
-
-    public static VacancyRepository getInstance() {
-        return INSTANCE;
     }
 
     @Override
