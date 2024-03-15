@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class Vacancy {
     @EqualsAndHashCode.Include
     private int id;
-
     private String title;
     private String description;
     private LocalDateTime creationDate = LocalDateTime.now();
