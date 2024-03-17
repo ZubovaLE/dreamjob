@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Vacancy;
 import ru.job4j.dreamjob.service.RecruitmentService;
+import ru.job4j.dreamjob.service.SimpleCityService;
 
 @RequiredArgsConstructor
 @Controller
@@ -13,6 +14,7 @@ import ru.job4j.dreamjob.service.RecruitmentService;
 public class VacancyController {
 
     private final RecruitmentService<Vacancy> vacancyService;
+    private final SimpleCityService cityService;
 
     @GetMapping
     public String getAll(Model model) {
@@ -21,7 +23,8 @@ public class VacancyController {
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("cities", cityService.findAll());
         return "vacancies/create";
     }
 
@@ -38,6 +41,7 @@ public class VacancyController {
             model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
             return "errors/404";
         }
+        model.addAttribute("cities", cityService.findAll());
         model.addAttribute("vacancy", vacancyOptional.get());
         return "vacancies/one";
     }
