@@ -16,12 +16,12 @@ public class CandidateRepository implements RecruitmentRepository<Candidate> {
     private final Map<Integer, Candidate> candidates = new HashMap<>();
 
     private CandidateRepository() {
-        save(new Candidate(0, "Ivan", "Description 1", LocalDateTime.of(2023, 1, 3, 0, 0)));
-        save(new Candidate(0, "Alex", "Description 2", LocalDateTime.of(2023, 2, 3, 0, 0)));
-        save(new Candidate(0, "Emily", "Description 3", LocalDateTime.of(2023, 3, 3, 0, 0)));
-        save(new Candidate(0, "Anna", "Description 4", LocalDateTime.of(2023, 4, 3, 0, 0)));
-        save(new Candidate(0, "Mark", "Description 5", LocalDateTime.of(2023, 5, 3, 0, 0)));
-        save(new Candidate(0, "Bob", "Description 6", LocalDateTime.of(2023, 6, 3, 0, 0)));
+        save(new Candidate(0, "Ivan", "Description 1", LocalDateTime.of(2023, 1, 3, 0, 0), 1));
+        save(new Candidate(0, "Alex", "Description 2", LocalDateTime.of(2023, 2, 3, 0, 0), 2));
+        save(new Candidate(0, "Emily", "Description 3", LocalDateTime.of(2023, 3, 3, 0, 0), 3));
+        save(new Candidate(0, "Anna", "Description 4", LocalDateTime.of(2023, 4, 3, 0, 0), 1));
+        save(new Candidate(0, "Mark", "Description 5", LocalDateTime.of(2023, 5, 3, 0, 0), 2));
+        save(new Candidate(0, "Bob", "Description 6", LocalDateTime.of(2023, 6, 3, 0, 0), 3));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CandidateRepository implements RecruitmentRepository<Candidate> {
     @Override
     public boolean update(Candidate candidate) {
         return candidates.computeIfPresent(candidate.getId(), (key, oldCandidate) -> new Candidate(key,
-                candidate.getName(), candidate.getDescription(), candidate.getCreationDate())) != null;
+                candidate.getName(), candidate.getDescription(), candidate.getCreationDate(), candidate.getCityId())) != null;
     }
 
     @Override
