@@ -17,6 +17,7 @@ public class Vacancy {
     private LocalDateTime creationDate = LocalDateTime.now();
     private boolean visible;
     private int cityId;
+    private int fileId;
 
     public boolean getVisible() {
         return visible;
