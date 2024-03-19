@@ -1,42 +1,21 @@
 package ru.job4j.dreamjob.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Vacancy;
-import ru.job4j.dreamjob.persistence.RecruitmentRepository;
-
 
 import java.util.Collection;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class VacancyService implements RecruitmentService<Vacancy> {
+public interface VacancyService {
 
-    private final RecruitmentRepository<Vacancy> vacancyRepository;
+    Vacancy save(Vacancy vacancy, FileDto image);
 
-    @Override
-    public Vacancy save(Vacancy vacancy) {
-        return vacancyRepository.save(vacancy);
-    }
+    boolean deleteById(int id);
 
-    @Override
-    public boolean deleteById(int id) {
-        return vacancyRepository.deleteById(id);
-    }
+    boolean update(Vacancy vacancy, FileDto image);
 
-    @Override
-    public boolean update(Vacancy vacancy) {
-        return vacancyRepository.update(vacancy);
-    }
+    Optional<Vacancy> findById(int id);
 
-    @Override
-    public Optional<Vacancy> findById(int id) {
-        return vacancyRepository.findById(id);
-    }
+    Collection<Vacancy> findAll();
 
-    @Override
-    public Collection<Vacancy> findAll() {
-        return vacancyRepository.findAll();
-    }
 }
