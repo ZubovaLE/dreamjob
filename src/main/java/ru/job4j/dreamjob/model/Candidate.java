@@ -3,6 +3,8 @@ package ru.job4j.dreamjob.model;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +18,5 @@ public class Candidate {
     private String description;
     private LocalDateTime creationDate = LocalDateTime.now();
     private int cityId;
+    private int fileId;
 }
