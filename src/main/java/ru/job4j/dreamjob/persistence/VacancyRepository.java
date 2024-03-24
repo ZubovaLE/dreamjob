@@ -1,56 +1,18 @@
 package ru.job4j.dreamjob.persistence;
 
 import ru.job4j.dreamjob.model.Vacancy;
-import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-@Repository
-public class VacancyRepository implements RecruitmentRepository<Vacancy> {
+public interface VacancyRepository {
+    Vacancy save(Vacancy vacancy);
 
-    private int nextId = 1;
+    boolean deleteById(int id);
 
-    private final Map<Integer, Vacancy> vacancies = new HashMap<>();
+    boolean update(Vacancy vacancy);
 
-    private VacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "Стажер Java разработчик", LocalDateTime.now(), true, 1, 0));
-        save(new Vacancy(0, "Junior Java Developer", "Младший Java разработчик", LocalDateTime.now(), true, 1, 0));
-        save(new Vacancy(0, "Junior+ Java Developer", "Java разработчик", LocalDateTime.now(), true, 2, 0));
-        save(new Vacancy(0, "Middle Java Developer", "Старший Java разработчик", LocalDateTime.now(), true, 2, 0));
-        save(new Vacancy(0, "Middle+ Java Developer", "Ведущий Java разработчик", LocalDateTime.now(), true, 3, 0));
-        save(new Vacancy(0, "Senior Java Developer", "Главный Java разработчик", LocalDateTime.now(), true, 3, 0));
-    }
+    Optional<Vacancy> findById(int id);
 
-    @Override
-    public Vacancy save(Vacancy vacancy) {
-        vacancy.setId(nextId++);
-        vacancies.put(vacancy.getId(), vacancy);
-        return vacancy;
-    }
-
-    @Override
-    public boolean deleteById(int id) {
-        return vacancies.remove(id) != null;
-    }
-
-    @Override
-    public boolean update(Vacancy vacancy) {
-        return vacancies.computeIfPresent(vacancy.getId(), (id, oldVacancy) -> new Vacancy(oldVacancy.getId(),
-                vacancy.getTitle(), vacancy.getDescription(), vacancy.getCreationDate(), vacancy.getVisible(),
-                vacancy.getCityId(), vacancy.getFileId())) != null;
-    }
-
-    @Override
-    public Optional<Vacancy> findById(int id) {
-        return Optional.ofNullable(vacancies.get(id));
-    }
-
-    @Override
-    public Collection<Vacancy> findAll() {
-        return vacancies.values();
-    }
+    Collection<Vacancy> findAll();
 }

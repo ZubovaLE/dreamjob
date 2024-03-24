@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.persistence.RecruitmentRepository;
+import ru.job4j.dreamjob.persistence.CandidateRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class SimpleCandidateService implements CandidateService {
 
-    private final RecruitmentRepository<Candidate> candidateRepository;
+    private final CandidateRepository candidateRepository;
     private final FileService fileService;
 
     @Override

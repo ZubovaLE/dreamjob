@@ -4,19 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Vacancy;
-import ru.job4j.dreamjob.persistence.RecruitmentRepository;
+import ru.job4j.dreamjob.persistence.VacancyRepository;
 
 
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class SimpleVacancyService implements VacancyService {
 
-    private final RecruitmentRepository<Vacancy> vacancyRepository;
+    private final VacancyRepository vacancyRepository;
 
     private final FileService fileService;
+
+    public SimpleVacancyService(VacancyRepository sql2oVacancyRepository, FileService fileService) {
+        this.vacancyRepository = sql2oVacancyRepository;
+        this.fileService = fileService;
+    }
 
     @Override
     public Vacancy save(Vacancy vacancy, FileDto image) {
