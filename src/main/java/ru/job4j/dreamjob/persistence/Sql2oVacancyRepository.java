@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.persistence;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 import ru.job4j.dreamjob.model.Vacancy;
@@ -7,14 +8,11 @@ import ru.job4j.dreamjob.model.Vacancy;
 import java.util.Collection;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Repository
 public class Sql2oVacancyRepository implements VacancyRepository {
 
     private final Sql2o sql2o;
-
-    public Sql2oVacancyRepository(Sql2o sql2o) {
-        this.sql2o = sql2o;
-    }
 
     @Override
     public Vacancy save(Vacancy vacancy) {

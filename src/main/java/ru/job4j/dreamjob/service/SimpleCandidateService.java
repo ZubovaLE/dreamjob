@@ -9,12 +9,16 @@ import ru.job4j.dreamjob.persistence.CandidateRepository;
 import java.util.Collection;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class SimpleCandidateService implements CandidateService {
 
     private final CandidateRepository candidateRepository;
     private final FileService fileService;
+
+    public SimpleCandidateService(CandidateRepository sql2oCandidateRepository, FileService fileService) {
+        this.candidateRepository = sql2oCandidateRepository;
+        this.fileService = fileService;
+    }
 
     @Override
     public Candidate save(Candidate candidate, FileDto image) {
