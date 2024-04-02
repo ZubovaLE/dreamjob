@@ -1,11 +1,9 @@
 package ru.job4j.dreamjob.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Vacancy;
+import ru.job4j.dreamjob.model.dto.FileDto;
 import ru.job4j.dreamjob.persistence.VacancyRepository;
-
 
 import java.util.Collection;
 import java.util.Optional;

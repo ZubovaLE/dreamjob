@@ -1,7 +1,7 @@
 package ru.job4j.dreamjob.service;
 
-import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.File;
+import ru.job4j.dreamjob.model.dto.FileDto;
 
 import java.util.Optional;
 
