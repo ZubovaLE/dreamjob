@@ -8,8 +8,8 @@ import ru.job4j.dreamjob.model.Candidate;
 import java.util.Collection;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Repository
+@RequiredArgsConstructor
 public class Sql2oCandidateRepository implements CandidateRepository {
 
     private final Sql2o sql2o;
