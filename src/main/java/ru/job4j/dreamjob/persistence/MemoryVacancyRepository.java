@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class MemoryVacancyRepository implements VacancyRepository {
 
     private int nextId = 1;
