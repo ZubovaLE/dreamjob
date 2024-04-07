@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 import ru.job4j.dreamjob.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -39,6 +40,22 @@ public class Sql2oUserRepository implements UserRepository {
             query.addParameter("password", password);
             var user = query.executeAndFetchFirst(User.class);
             return Optional.ofNullable(user);
+        }
+    }
+
+    public List<User> findAll() {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("SELECT * FROM users");
+            return query.executeAndFetch(User.class);
+        }
+    }
+
+    public boolean deleteById(int id) {
+        try (var connection = sql2o.open()) {
+            var query = connection.createQuery("DELETE FROM users WHERE id = :id");
+            query.addParameter("id", id);
+            int affectedRows = query.executeUpdate().getResult();
+            return affectedRows > 0;
         }
     }
 }
