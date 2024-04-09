@@ -1,12 +1,19 @@
 package ru.job4j.dreamjob.persistence;
 
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.configuration.DatasourceConfiguration;
 import ru.job4j.dreamjob.model.User;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+
+import static java.util.Collections.emptyList;
+import static java.util.Optional.empty;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class Sql2oUserRepositoryTest {
     private static Sql2oUserRepository sql2oUserRepository;
@@ -40,20 +47,68 @@ class Sql2oUserRepositoryTest {
     void whenSaveThenReturnSame() {
 
         // Given
+        User user = new User("email", "name", "password");
 
         // When
+        sql2oUserRepository.save(user);
+        User savedUser = sql2oUserRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).get();
 
         // Then
+        assertThat(savedUser).usingRecursiveComparison().isEqualTo(user);
 
     }
 
     @Test
-    void findByEmailAndPassword() {
+    void whenSaveSeveralThenReturnAll() {
+
+        // Given
+        User userOne = new User("email one", "name one", "password one");
+        User userTwo = new User("email two", "name two", "password two");
+
+        // When
+        sql2oUserRepository.save(userOne);
+        sql2oUserRepository.save(userTwo);
+        List<User> result = sql2oUserRepository.findAll();
+
+        // Then
+        assertThat(result).usingRecursiveComparison().isEqualTo(List.of(userOne, userTwo));
+
+    }
+
+    @Test
+    void whenDontSaveThenNothingFound() {
 
         // Given
 
         // When
 
+        //Then
+        AssertionsForClassTypes.assertThat(sql2oUserRepository.findAll()).isEqualTo(emptyList());
+    }
+
+    @Test
+    void deleteByIdThenGetEmpty() {
+
+        // Given
+        User user = new User("email", "name", "password");
+
+        // When
+        sql2oUserRepository.save(user);
+        var isDeleted = sql2oUserRepository.deleteById(user.getId());
+        Optional<User> savedUser = sql2oUserRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        List<User> savedUsers = sql2oUserRepository.findAll();
+
+        //Then
+        AssertionsForClassTypes.assertThat(isDeleted).isTrue();
+        AssertionsForClassTypes.assertThat(savedUser).isEqualTo(empty());
+        AssertionsForClassTypes.assertThat(savedUsers).isEqualTo(empty());
+    }
+
+    @Test
+    public void whenDeleteByInvalidIdThenGetFalse() {
+        // Given
+        // When
         // Then
+        AssertionsForClassTypes.assertThat(sql2oUserRepository.deleteById(0)).isFalse();
     }
 }
