@@ -76,6 +76,20 @@ class Sql2oUserRepositoryTest {
     }
 
     @Test
+    void whenSaveSameEmailThenNotSave() {
+
+        // Given
+        User userOne = sql2oUserRepository.save(new User("email", "name one", "password one")).get();
+
+        // When
+        var result = sql2oUserRepository.save(new User(userOne.getEmail(), "name two", "password two"));
+
+        // Then
+        assertThat(result).isEqualTo(empty());
+
+    }
+
+    @Test
     void whenDontSaveThenNothingFound() {
 
         // Given
@@ -101,7 +115,7 @@ class Sql2oUserRepositoryTest {
         //Then
         AssertionsForClassTypes.assertThat(isDeleted).isTrue();
         AssertionsForClassTypes.assertThat(savedUser).isEqualTo(empty());
-        AssertionsForClassTypes.assertThat(savedUsers).isEqualTo(empty());
+        AssertionsForClassTypes.assertThat(savedUsers).isEqualTo(emptyList());
     }
 
     @Test
@@ -110,5 +124,18 @@ class Sql2oUserRepositoryTest {
         // When
         // Then
         AssertionsForClassTypes.assertThat(sql2oUserRepository.deleteById(0)).isFalse();
+    }
+
+    @Test
+    public void whenFindByInvalidPassword() {
+        // Given
+        User user = new User("email", "name", "password");
+        sql2oUserRepository.save(user);
+
+        // When
+       var savedUser = sql2oUserRepository.findByEmailAndPassword(user.getEmail(), "incorrest");
+
+        // Then
+        AssertionsForClassTypes.assertThat(savedUser).isEqualTo(empty());
     }
 }
