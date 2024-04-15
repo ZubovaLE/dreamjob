@@ -6,13 +6,15 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.web.multipart.MultipartFile;
-import ru.job4j.dreamjob.model.dto.FileDto;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Vacancy;
+import ru.job4j.dreamjob.model.dto.FileDto;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.VacancyService;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -98,6 +100,52 @@ public class VacancyControllerTest {
 
         assertThat(view).isEqualTo("errors/404");
         assertThat(actualExceptionMessage).isEqualTo(expectedException.getMessage());
+    }
+
+    @Test
+    public void whenRequestOneVacancyPageThenGetPageWithThisVacancy() throws IOException {
+        var city1 = new City(1, "Москва");
+        var city2 = new City(2, "Санкт-Петербург");
+        var expectedCities = List.of(city1, city2);
+        when(cityService.findAll()).thenReturn(expectedCities);
+
+        var expectedVacancy = new Vacancy(1, "test1", "desc1", now(), true, 1, 2);
+        var fileDto = new FileDto(testFile.getOriginalFilename(), testFile.getBytes());
+        var vacancyArgumentCaptor = ArgumentCaptor.forClass(Vacancy.class);
+        var fileDtoArgumentCaptor = ArgumentCaptor.forClass(FileDto.class);
+        when(vacancyService.save(vacancyArgumentCaptor.capture(), fileDtoArgumentCaptor.capture())).thenReturn(expectedVacancy);
+        when(vacancyService.findById(1)).thenReturn(Optional.of(expectedVacancy));
+
+        var model = new ConcurrentModel();
+        var view = vacancyController.getById(model, 1);
+        var actualVacancy = model.getAttribute("vacancy");
+        var actualCities = model.getAttribute("cities");
+
+        assertThat(view).isEqualTo("vacancies/one");
+        assertThat(actualVacancy).isEqualTo(expectedVacancy);
+        assertThat(actualCities).isEqualTo(expectedCities);
+    }
+
+    @Test
+    public void whenUpdateVacancyThenRedirectPageWithVacancies() throws IOException {
+        var city1 = new City(1, "Москва");
+        var city2 = new City(2, "Санкт-Петербург");
+        var expectedCities = List.of(city1, city2);
+        when(cityService.findAll()).thenReturn(expectedCities);
+
+        var expectedVacancy = new Vacancy(1, "test1", "desc1", now(), true, 1, 2);
+        var fileDto = new FileDto(testFile.getOriginalFilename(), testFile.getBytes());
+        var vacancyArgumentCaptor = ArgumentCaptor.forClass(Vacancy.class);
+        var fileDtoArgumentCaptor = ArgumentCaptor.forClass(FileDto.class);
+        when(vacancyService.save(vacancyArgumentCaptor.capture(), fileDtoArgumentCaptor.capture())).thenReturn(expectedVacancy);
+        when(vacancyService.update(expectedVacancy, fileDto)).thenReturn(true);
+
+        expectedVacancy.setCityId(2);
+        var model = new ConcurrentModel();
+        var view = vacancyController.update(expectedVacancy, testFile, model);
+
+        assertThat(view).isEqualTo("redirect:/vacancies");
+        assertThat(vacancyService.findById(1)).isEqualTo(expectedVacancy);
     }
 
 }
