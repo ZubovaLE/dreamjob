@@ -63,10 +63,10 @@ public class VacancyControllerTest {
 
         var model = new ConcurrentModel();
         var view = vacancyController.getCreationPage(model);
-        var actualVacancies = model.getAttribute("cities");
+        var actualCities = model.getAttribute("cities");
 
         assertThat(view).isEqualTo("vacancies/create");
-        assertThat(actualVacancies).isEqualTo(expectedCities);
+        assertThat(actualCities).isEqualTo(expectedCities);
     }
 
     @Test
@@ -87,7 +87,6 @@ public class VacancyControllerTest {
         assertThat(fileDto).usingRecursiveComparison().isEqualTo(actualFileDto);
 
     }
-
 
     @Test
     public void whenSomeExceptionThrownThenGetErrorPageWithMessage() {
