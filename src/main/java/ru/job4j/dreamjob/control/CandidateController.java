@@ -38,7 +38,7 @@ public class CandidateController {
             candidateService.save(candidate, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/candidates";
         } catch (Exception exception) {
-            model.addAttribute("message", "Кандидат с указанным идентификатором не найден");
+            model.addAttribute("message", "Не удалось сохранить кандидата");
             return "errors/404";
         }
     }

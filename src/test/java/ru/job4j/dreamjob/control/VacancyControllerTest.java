@@ -126,25 +126,34 @@ public class VacancyControllerTest {
     }
 
     @Test
-    public void whenUpdateVacancyThenRedirectPageWithVacancies() throws IOException {
-        var city1 = new City(1, "Москва");
-        var city2 = new City(2, "Санкт-Петербург");
-        var expectedCities = List.of(city1, city2);
-        when(cityService.findAll()).thenReturn(expectedCities);
+    public void whenUpdateVacancyThenRedirectPageWithVacancies() {
+        when(vacancyService.update(any(), any())).thenReturn(true);
 
-        var expectedVacancy = new Vacancy(1, "test1", "desc1", now(), true, 1, 2);
-        var fileDto = new FileDto(testFile.getOriginalFilename(), testFile.getBytes());
-        var vacancyArgumentCaptor = ArgumentCaptor.forClass(Vacancy.class);
-        var fileDtoArgumentCaptor = ArgumentCaptor.forClass(FileDto.class);
-        when(vacancyService.save(vacancyArgumentCaptor.capture(), fileDtoArgumentCaptor.capture())).thenReturn(expectedVacancy);
-        when(vacancyService.update(expectedVacancy, fileDto)).thenReturn(true);
-
-        expectedVacancy.setCityId(2);
         var model = new ConcurrentModel();
-        var view = vacancyController.update(expectedVacancy, testFile, model);
+        var view = vacancyController.update(new Vacancy(), testFile, model);
 
         assertThat(view).isEqualTo("redirect:/vacancies");
-        assertThat(vacancyService.findById(1)).isEqualTo(expectedVacancy);
     }
 
+    @Test
+    public void whenDeleteVacancyThenRedirectPageWithVacancys() {
+        when(vacancyService.deleteById(1)).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = vacancyController.delete(model, 1);
+
+        assertThat(view).isEqualTo("redirect:/vacancies");
+    }
+
+    @Test
+    public void whenDeleteVacancyWithInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Вакансия с указанным идентификатором не найдена";
+
+        var model = new ConcurrentModel();
+        var view = vacancyController.delete(model, 0);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
 }

@@ -91,7 +91,7 @@ class CandidateControllerTest {
     @Test
     public void whenSomeExceptionThrownThenGetErrorPageWithMessage() {
         var expectedException = new RuntimeException("Failed");
-        var expectedMessage = "Кандидат с указанным идентификатором не найден";
+        var expectedMessage = "Не удалось сохранить кандидата";
         when(candidateService.save(any(), any())).thenThrow(expectedException);
 
         var model = new ConcurrentModel();
@@ -126,4 +126,59 @@ class CandidateControllerTest {
         assertThat(actualCities).isEqualTo(expectedCities);
     }
 
+    @Test
+    public void whenRequestOneCandidateByInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Кандидат с указанным идентификатором не найден";
+
+        var model = new ConcurrentModel();
+        var view = candidateController.getById(model, 0);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
+
+    @Test
+    public void whenUpdateCandidateThenRedirectPageWithCandidates() {
+        when(candidateService.update(any(), any())).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = candidateController.update(new Candidate(), testFile, model);
+
+        assertThat(view).isEqualTo("redirect:/candidates");
+    }
+
+    @Test
+    public void whenUpdateCandidateWithInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Кандидат с указанным идентификатором не найден";
+
+        var model = new ConcurrentModel();
+        var view = candidateController.update(new Candidate(), testFile, model);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
+
+    @Test
+    public void whenDeleteCandidateThenRedirectPageWithCandidates() {
+        when(candidateService.deleteById(1)).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = candidateController.delete(model, 1);
+
+        assertThat(view).isEqualTo("redirect:/candidates");
+    }
+
+    @Test
+    public void whenDeleteCandidateWithInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Кандидат с указанным идентификатором не найден";
+
+        var model = new ConcurrentModel();
+        var view = candidateController.delete(model, 0);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
 }
