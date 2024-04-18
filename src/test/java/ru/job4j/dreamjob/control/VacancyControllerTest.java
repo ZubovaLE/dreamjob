@@ -126,6 +126,18 @@ public class VacancyControllerTest {
     }
 
     @Test
+    public void whenRequestOneVacancyByInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Вакансия с указанным идентификатором не найдена";
+
+        var model = new ConcurrentModel();
+        var view = vacancyController.getById(model, 0);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
+
+    @Test
     public void whenUpdateVacancyThenRedirectPageWithVacancies() {
         when(vacancyService.update(any(), any())).thenReturn(true);
 
@@ -133,6 +145,18 @@ public class VacancyControllerTest {
         var view = vacancyController.update(new Vacancy(), testFile, model);
 
         assertThat(view).isEqualTo("redirect:/vacancies");
+    }
+
+    @Test
+    public void whenUpdateVacancyWithInvalidIdThenGetErrorPageWithMessage() {
+        String expectedMessage = "Вакансия с указанным идентификатором не найдена";
+
+        var model = new ConcurrentModel();
+        var view = vacancyController.update(new Vacancy(), testFile, model);
+        var actualMessage = model.getAttribute("message");
+
+        assertThat(view).isEqualTo("errors/404");
+        assertThat(actualMessage).isEqualTo(expectedMessage);
     }
 
     @Test
