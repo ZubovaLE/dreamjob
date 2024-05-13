@@ -88,11 +88,14 @@
 
 ### 1 Что такое индекс?
 
+Индекс в Git — это специальная промежуточная область, в которой хранятся изменения файлов на пути от рабочей директории
+до репозитория. При выполнении коммита в него попадают только те изменения, которые были добавлены в индекс.
+
 [К оглавлению Git &#8593;](#Git)
 
 ### 2 Как добавить изменения в индекс?
 
-git add .
+`git add .`  - добавляет абсолютно все изменения рабочей директории в индекс
 
 [К оглавлению Git &#8593;](#Git)
 
@@ -571,6 +574,56 @@ th:action - адрес для отправки формы
 
 ### 1 Опишите из каких компонентов состоит Spring boot?
 
+**1.1 Уровень интеграции компонентов**
+
++ Spring Boot
++ Spring Framework – Core
+
+**1.2 Уровень бизнес-логики**
+
++ Spring Framework – Testing
++ Spring Framework – Languages
++ Spring Shell
++ Spring Statemachine
++ Spring Batch
++ Spring Security
++ Spring Security
++ Spring Security Kerberos
++ Spring Authorization Server
+
+**2 Уровень обмена данными с хранилищами**
+
++ Spring Framework – Data Access
++ Spring LDAP
++ Spring Data
++ Spring Data Commons
++ Поддержка SQL БД
++ Spring Data JPA
++ Spring Data Envers
++ Spring Data REST
++ Spring Data JDBC
++ Spring Data R2DBC
++ Spring Data for Apache Solr (устарел)
++ Spring Data JDBC Extensions (устарел)
+
+**3 Уровень сетевого обмена данными**
+
++ Spring Framework – Web MVC (Web Servlet)
++ Spring Framework – WebFlux (Web Reactive)
++ Spring Framework – Integration
++ Spring Web Flow
++ Spring HATEOAS
++ Spring for GraphQL
++ Spring Web Services
++ Spring REST Docs
++ MQ (Message Queue)
++ Spring AMQP
++ Spring for Apache Kafka
+
+**4. Фреймворк корпоративной интеграции**
+
++ Spring Integration
+
 [К оглавлению - Spring boot &#8593;](#Spring-boot)
 
 ### 2 Что такое контроллер и как он связан с DispatcherServlet.
@@ -744,13 +797,17 @@ public Car buyCar(@RequestParam(defaultValue = "5") int seatCount) {
 
 ### 1 Что такое HttpSession?
 
+HttpSession является фундаментальным компонентом Java Servlet API, который позволяет веб-разработчикам отслеживать сеанс
+пользователя по нескольким HTTP-запросам. Когда пользователь впервые посещает веб-приложение, создается уникальный
+сеанс, представляющий их взаимодействие.
+
 [К оглавлению Безопасность &#8593;](#Безопасность)
 
 ### 2 Что такое авторизация?
 
-**Авторизация** - предоставление определённому лицу или группе лиц прав на выполнение определённых действий; а также процесс
-проверки (подтверждения) данных прав при попытке выполнения этих действий. В том числе путем передачи таких прав другому
-лицу
+**Авторизация** - предоставление определённому лицу или группе лиц прав на выполнение определённых действий; а также
+процесс проверки (подтверждения) данных прав при попытке выполнения этих действий. В том числе путем передачи таких прав
+другому лицу
 
 [К оглавлению - Безопасность &#8593;](#Безопасность)
 
